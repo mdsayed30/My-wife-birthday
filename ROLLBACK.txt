@@ -1,0 +1,6 @@
+ROLLBACK / BACKUP
+- This package did not modify birthday8-owner or birthday8-visitor; they are exactly your V41 upload.
+- Keep your original anusha-birthday-v41-cloud-sync.zip as the backup. To roll back, re-publish its two folders.
+- SUPABASE_SETUP.sql: safe to re-run. It drops and recreates policies on gallery/voice buckets and sets bucket settings.
+  It does NOT delete tables, gallery rows or uploaded files. old_v40/ holds the previous SQL for reference.
+- Deleting recordings or gallery files in Supabase Storage is permanent.

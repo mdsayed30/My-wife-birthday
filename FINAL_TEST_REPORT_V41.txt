@@ -1,0 +1,65 @@
+ANUSHA BIRTHDAY V41 - FINAL TEST REPORT (honest)
+Date: 2026-10-22. Environment: headless Chromium 141 (phone-size 390x844), Node 22, no internet.
+
+IMPORTANT: Every automated test below ran against a LOCAL MOCK of Supabase (tests_mock_server/mock_supabase.py),
+NOT your real Supabase project. "Refused" results only show the mock enforces rules I coded into it.
+The real SQL/RLS policies were NOT executed. No live URL was tested. No real phone was tested.
+
+PASS / FAIL (mock)
+PASS  Owner build: all 13 chapter sections present
+PASS  Owner: navigation reaches Chapter 13 via Next
+PASS  Owner sign-in (mock)
+PASS  Visitor build: no owner controls visible
+PASS  Visitor before first publish shows built-in videos only  [3 cards]
+PASS  Owner photo upload -> file in cloud storage  [['gallery/photos/p1792643925249zooh-test.png']]
+PASS  Owner photo upload -> gallery list rev advanced  [rev=2 items=4]
+PASS  Owner shows honest "saved online" status  [☁ All changes are saved online ✓ (4:38:45 AM)]
+PASS  Visitor (separate session) fetches online gallery incl. new photo  [4 cards]
+PASS  Owner edit title/caption/date persisted online  [[{'k': 'p', 'id': 'p1792644001040p5bn', 'title': 'Sunrise title', 'cap': 'A caption from owner', 'date': '2026]
+FAIL  Visitor reload shows edited caption
+PASS  Owner reorder persisted online  [['lv_7381754641437969681_20261021110328.mp4', 'lv_7076074037947944193_20261021113126.mp4', 'test.png', 'lv_712]
+PASS  Anonymous gallery write is refused (mock mirrors RLS; live NOT TESTED)
+PASS  Owner delete removes item from online list
+PASS  Owner delete removes file from storage  [[]]
+PASS  Visitor reload no longer shows deleted photo
+PASS  Visitor with unreachable server: honest message, no "up to date" claim  [Could not load the latest gallery online (mock offline). Showing the videos that are stored in this website.]
+PASS  Owner upload failure shows error and "not online yet" (no false success)  [⚠ Could not save online: mock storage failure — retrying automatically.]
+PASS  Visitor (separate session) shows edited title+caption+date  [['Sunrise title | A caption from owner | 2026-10-24 | test.png · 1 KB | View | Download']]
+PASS  Visitor shows owner message card
+PASS  Visitor Ch10 voiceUp -> private bucket voice/ch10/  [OK ch10/2026-10-22T04-42-28-235Z-60871b137b831a33.webm]
+PASS  Visitor Ch5 voiceUp -> voice/ch5/  [OK ch5/2026-10-22T04-42-28-258Z-3e7885bd78e46d47.webm]
+PASS  Oversize (>10 MB) recording rejected client-side with clear message  [ERR the recording is larger than 10 MB]
+PASS  Empty recording rejected with clear message  [ERR the recording is empty]
+PASS  Server failure surfaces real error text (not success)  [ERR mock storage failure]
+PASS  Offline browser: upload refused with "no internet" message  [ERR there is no internet connection]
+PASS  Anonymous cannot read recording via public URL (mock; live NOT TESTED)  [400]
+PASS  Anonymous cannot list recordings (mock; live NOT TESTED)  [200]
+PASS  Anonymous cannot upload outside ch5/ch10 (mock; live NOT TESTED)  [403]
+PASS  Anonymous cannot upload non-audio MIME (mock; live NOT TESTED)  [415]
+PASS  Anonymous cannot upload to public gallery bucket (mock; live NOT TESTED)  [403]
+PASS  Anonymous delete of recording removes nothing (mock; live NOT TESTED)  [200]
+PASS  Owner: recordings panel visible only when signed in
+PASS  Visitor build: recordings panel absent/hidden
+PASS  Owner lists uploaded recordings  [2 recording(s) online. / 2 rows]
+PASS  Owner gets a signed link and an audio player  [ch5/2026-10-22T04-42-28-258Z-3e7885bd78e46d47.webm?token=tok]
+PASS  Signed link actually returns the recording bytes  [2000 bytes]
+FAIL  Owner delete of a recording works  [⚠ The recording could NOT be deleted (check the owner delete policy).]
+
+KNOWN OPEN ISSUE
+FAIL  Owner delete of a recording (Chapter 13 > online voice recordings > Delete): failed in one scripted run
+      (after playing the recording first), passed in an isolated run. Cause NOT found. Check on the live site.
+
+NOT TESTED
+- Chapter 10 punishment screen end-to-end (only its upload function was tested; Chapter 5 screen was tested via UI)
+- Site song and Owner voice message sync; Chapter 5 playback of Owner voice message
+- Owner "Test online sync" button
+- Running SUPABASE_SETUP.sql on real Postgres; real RLS/Storage policies; real anon/publishable key behaviour
+- Mobile layout regression, broken-link/missing-file scan, content of each chapter beyond navigation
+- Cross-browser (only Chromium); real Android/iPhone; microphone on real phones (only a fake mic)
+- Any live Supabase or published site
+
+SYNC SCOPE
+Online: gallery items/media/titles/captions/dates/messages/order, Owner voice message, website song, Chapter 5 and 10 recordings.
+Device only: unlock/game progress, scores, Anusha's typed reactions.
+Not editable from site (needs republish): chapter text, quiz text, games, animations.
+Changes made in this package: NONE to Owner/Visitor code. Added: tests_mock_server/, this report, ROLLBACK.txt, README_FIRST.txt.

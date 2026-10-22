@@ -1,0 +1,2 @@
+V41 STATUS — see FINAL_REPORT_V41.txt (this replaces the outdated V40 status that said the config was blank).
+cloud-config.js in both builds contains the real Project URL and publishable key and is unchanged.
