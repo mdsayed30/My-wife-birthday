@@ -1,0 +1,20 @@
+V30 TEST REPORT (headless Chromium via Playwright, 390x844 touch viewport; NO real Android phone, NO real microphone/IndexedDB owner recording was used)
+
+WHAT CHANGED
+1. Memory game (chapter 5, "Our Love Game"): the owner-voice player and its autoplay were removed completely (function ownerFirst, its silent "priming" audio, the player box, the "My voice message" label). The matching game itself is byte-identical to V29.1.
+2. New chapter 10 "The Final Love Vault ♡" placed directly after Chapter 9. Chapter 9 (The Final Birthday Wish) is byte-identical to V29.1; its "One more little thing →" button now leads to the vault. "The Last Surprise" is now chapter 11 and stays locked until the vault is solved.
+3. "My Bhut's Voice ♡" is created only at the very bottom of the last page (below The Last Surprise) and only after the vault is complete. Play/Pause and Replay buttons; it never plays by itself.
+4. The vault: Stage 1 = 10 pairs (20 cards) in 30 turns, reshuffles if turns run out. Stage 2 = riddle (answer: love). Stage 3 = 4-wheel combination lock using Clue 1 (10 pairs) and Clue 2 (letters in the answer = 4, doubled = 8) -> 1048; extra clues appear after wrong tries. Progress saved in localStorage ("anushaVault"); no microphone needed; no 3D or heavy animation.
+
+VOICE FILE (IMPORTANT)
+The V29.1 ZIP does NOT contain an owner voice file: audio/ holds only a README. The site reads your recording from your browser's saved owner voice (set in "Owner-only setup" on the first page) and, if none is saved, from audio/owner-voice.mp3/.m4a/.webm/.ogg. This update keeps that exact source and does not create, replace or delete any recording. If you open the site on a device/browser where the owner voice was never saved and there is no file in audio/, the bottom box says the voice is not there and Play stays disabled. To make it work everywhere: put your recording in audio/owner-voice.mp3 (or .m4a/.webm/.ogg) in the project folder.
+
+TESTED OK
+- Order of chapters (labels) and locks; Chapter 9 heading and signature present; chapters 1-9 markup identical to V29.1.
+- Entering and starting the memory game: no owner box, no audio element, no voice text, no voice play() call (only the site's existing background-music call).
+- Vault: turn-limit retry (message + fresh shuffle), full 10-pair solve, refresh keeps progress, wrong riddle answer + 2 hints, correct answer (LOVE, any case/spaces), wrong lock code twice (extra clue appears), correct code 1048, vault saved as done, last chapter unlocked.
+- Voice: box absent before the vault is solved; after solving, no play() call on arrival; with a test tone saved as audio/owner-voice.mp3 (test copy only, NOT shipped) Play started playback only after tapping, Pause and Replay worked; not present in the memory game or first page; missing-file message shown on the real folder.
+- No JavaScript errors; no sideways overflow at 390px.
+
+NOT TESTED
+- Real phone performance; your actual saved owner recording (IndexedDB path is the unchanged V29.1 code but could not be exercised here); desktop-sized layout this round; the Anusha voice-challenge popup (unchanged, not re-tested).

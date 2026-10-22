@@ -1,0 +1,33 @@
+V32 TEST REPORT (headless Chromium via Playwright, 390x844, served from localhost; NO real phone, NO real microphone)
+
+WHAT "CHAPTER 10" IS
+Chapter 10 of 11 is "The Final Love Vault": three games in order (1 memory match, 2 riddle, 3 combination lock). "You did it, Anusha!" is shown only by this chapter.
+
+THE BUG (found in the code, reproduced)
+- Vault progress was one saved number ("stage"). Any saved value of 3 or more meant "vault finished", so opening Chapter 10 showed "The vault is open" and "You did it, Anusha!" with no game played. Nothing proved the games had been played.
+- "Start over" on the first page did not clear the vault, so a previously finished vault came straight back, and opening the chapter also re-unlocked the last chapter.
+- If nothing readable was saved, old in-memory progress survived between visits.
+- The game functions did not check they were in the right stage, and the stage was changed in memory before being saved.
+
+THE FIX
+- Progress is now saved as three separate flags, one per game, set only at the real moment each game is won (10th pair matched / riddle answered "love" / lock opened with 1048). "Finished" is true only if all three are set, in order. A forged or inconsistent save cannot skip a game.
+- Each game function ignores clicks unless it is the current game.
+- "Start over" now clears the vault save and in-memory vault state.
+- The last chapter (and the voice box) unlock only when all three flags are genuinely set.
+- Old saves: stage 1 and 2 were earned by real play and are KEPT (cards/riddle stay done). An old "finished" mark cannot be verified, so those phones go back to game 3 (the 4-digit lock) once. This is a judgment call: if Anusha genuinely finished before, she re-enters 1048 once.
+- Nothing else changed: other chapters, Romeo & Juliet, birthday wish page, voice features, photos and bonus games are untouched.
+
+TESTED OK (all with zero JavaScript errors)
+- Opened Chapter 10 with: fresh save, only chapter-unlock saved, old stage 3, old stage 99, forged "done", skipped-game flags, corrupt save: never showed "You did it"; showed the correct unfinished game each time. Genuine all-three-done save correctly shows the open vault.
+- Full play from the menu: opened Chapter 10, matched all 10 pairs (20 turns), page reload kept progress, wrong riddle answer gave a message, "Love" accepted, wrong lock code gave a clue, 1048 opened the vault, "You did it, Anusha!" appeared only then, Next unlocked, "Go to My Bhut's Voice" worked and the voice box appeared, Back returned to the vault.
+- Start over with a finished vault: storage cleared, Chapter 10 locked again, reopening it shows game 1 and no success message.
+- Bonus Games hub: opened, started each of the 3 games (Hasi Churi, Cake Bakery, Cupid Aim), pressed their main buttons, returned to the menu with Back, closed the hub.
+- All 11 chapters opened one by one via the chapter dots with no errors.
+- The film (chapter 8) played in real time (122 s): 20 captions in order, the board line ("two plus two may make five... 1-4-3"), the 4-line rhyme, the closing line, then Replay and Next buttons appeared; Next went to Chapter 9.
+- Script syntax check passes.
+
+NOT TESTED / LIMITS
+- No real phone, real touch, or real saved data from Anusha's phone. I can't see her storage, so I can't prove which stale value she had; the fixes cover every stale case I could construct plus the Start over path.
+- Bonus games were opened and clicked, not played to a win. Garden candles, dream house, cake cutting, Our Love Game, Catch Your Heart and Romeo & Juliet were visited (no errors) but not played through.
+- Memory-match was played by script; the 30-turn "out of turns" reshuffle was not re-tested this round.
+- Voice recording/playback with a real recording and the first-page voice setup were not re-tested.

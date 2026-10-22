@@ -1,0 +1,16 @@
+V40 - CHAPTER 10 STAGE 1 VOICE PUNISHMENT (headless Chromium, phone-size 360x640, fake microphone; NOT a real Android phone)
+WHAT CHANGED (only these)
+1. Stage 1 (Chapter 10, The Final Love Vault): when Turns Left reaches 0 with fewer than 10 pairs matched, a separate punishment screen opens (after ~1 second so she sees the last cards). The old "cards are shuffling" auto-restart was replaced by this. A win never triggers it. A guard stops it opening twice and stops more cards being turned.
+2. The screen shows the requested heading and messages, then lets her Record, Stop, replay (audio player) and Save. No required sentence, no speech check, no typed confirmation, no Skip button. Chapter 5's rules are not used.
+3. "Try Stage 1 Again" appears only after the recording is stored AND read back successfully; it restarts Stage 1 with 30 turns.
+4. If she refreshes before saving, the punishment is still there (a flag in this browser), so refreshing does not skip it.
+5. Recordings are stored in their own private browser database "anusha-v40-ch10-stage1-audio" (same technique as Chapter 5, separate store). "Saved and verified" is shown only after the audio is written and read back with the same size. On failure it says NOT saved, offers a backup download, and lets her retry.
+6. Chapter 10 now shows "Saved voice messages from Stage 1 (n)" with a play button, Download and Share for each, so the recording can be listened to again after refresh/restart.
+7. "Start over" also clears a pending punishment flag (recordings are kept).
+NOT CHANGED: Chapter 5 and its recordings/owner voice, Stages 2 and 3, the final "Record my voice / Skip for now" step after all three stages (it is a different screen; you asked only for the Stage 1 punishment screen), music, Supabase config, other chapters.
+TESTED (35 checks + 1 extra): 30 turns used -> punishment at 0 with exact texts; no Skip; opens once; refresh before saving still shows it; record/stop/replay; nothing stored before Save; Save stores a real 26 KB audio blob and verifies it; refresh and a new page in the same browser still have and can play the same recording; Try Stage 1 Again gives 30 turns; winning (26 turns) shows no punishment and moves to Stage 2; Chapter 5 sentinel recording, owner voice and voice gate unchanged; mic unavailable -> helpful error, nothing reported saved, retry possible; blocked storage -> "NOT saved", backup offered; no JS errors; no horizontal overflow at 360 px.
+LIMITS - READ THIS
+- Storage is browser-local, tied to the exact web address and the device. If Anusha records on HER phone, the recording is on HER phone; you cannot hear it from yours. Download/Share in Chapter 10 on her phone is the way to send it to you. Clearing site data or using a private tab deletes it.
+- Cloud sync (Supabase) is not configured in this project (cloud-config.js is blank), and the cloud rules only allow the owner account to upload, so Anusha's recording is NOT uploaded anywhere.
+- By design there is no skip. If a browser blocks both the microphone/recorder and storage entirely, she cannot get past Stage 1.
+- NOT tested: real Android phone microphone/permission prompts, https vs content:// behaviour, Safari/iPhone, very long recordings (limit 60 seconds), the phone-recorder file button with a real phone recording.

@@ -1,0 +1,11 @@
+V33.3 - photo, video and message box fix
+WHAT CHANGED (Chapter 13 gallery only)
+1. The 3 provided videos are in the gallery (files in videos/). They are the same footage as the files you uploaded again; the project copies only had their metadata moved to the front of the file (no re-encoding).
+2. "+ Add photos" and "+ Add videos": each file is saved to the browser's storage first and is added to the gallery only if that save worked; otherwise a message says it was not saved.
+3. "Write message" adds a message card; "Edit" changes a title/caption/date; both use in-page boxes with Save/Cancel.
+4. Saving: the gallery list is kept in localStorage and the photo/video files in IndexedDB (the existing system). The page asks the browser to keep this data and warns on screen if storage is blocked (for example in a file preview or private window).
+5. There was no "Anusha's reaction" box anywhere in the project, so a box was added under the gallery: Anusha types a reaction and presses Submit; it is saved on that device and shown below. The site has no server, so Bhut only receives it if Anusha presses "Send it to Bhut" (share sheet, or copy if sharing is unavailable). Bhut cannot read it from the site itself.
+TESTED (headless Chromium 390x844, test copy with small stand-in videos): add photo, add video, write message, edit caption, submit reaction; everything still present after reloading; photo viewer; uploaded video plays after reload; thumbnails; no native pop-ups; no JavaScript errors.
+NOT TESTED: the real H.264 MP4s (test browser cannot decode them); real phone; Android share sheet; saving inside a content:// preview (storage there is often not kept: use the https:// link); large photos/videos near the phone's storage limit.
+
+UPDATE: Anusha's reactions now each have "Edit" and "Delete" buttons (Delete asks first and cannot be undone; Edit puts the text back in the box and Submit replaces it). All saved reactions are listed, not just the last three. Tested: submit two, edit one (replaced, not duplicated), delete one, reload: the list stayed correct; no JavaScript errors. Not tested on a real phone.

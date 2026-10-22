@@ -1,0 +1,10 @@
+VOICE / MICROPHONE NEEDS HTTPS
+Chrome only gives the microphone to secure pages. Do not open index.html from Downloads, a file manager or a content:// preview.
+1. Unzip this project so the folder 'birthday8' is on your computer.
+2. Go to https://app.netlify.com/drop and drag the whole folder in (or publish it with GitHub Pages).
+3. Open the https:// link in Chrome on the phone, tap Start Recording, and choose Allow.
+Test on a computer: run  python3 -m http.server 8000  in the folder and open http://localhost:8000 (localhost counts as secure).
+The _headers file (Netlify) allows the microphone for the site itself.
+
+
+V27 microphone requirement: publish over HTTPS and open the HTTPS URL directly in Android Chrome. Do not test microphone permissions from a content:// preview. See README.txt for local-only recording/privacy details.

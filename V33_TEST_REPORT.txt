@@ -1,0 +1,21 @@
+V33 REPORT: Chapter 12, Chapter 13 and candle blowing (added to V32; nothing existing was removed)
+WHAT WAS ADDED
+- Chapter 12 (new 12th chapter, after The Last Surprise): your film file chapter12-midnight-film-5.html is shipped as chapter12.html and shown in the chapter in a frame. It loads only while the chapter is open and unloads when you leave. Full screen button added. I added the midnight message after the clock turns to 12:00 AM: "BROOOO, AJKE AMAR WIFE ER BIRTHDAYYYYY!" and a signal when the film finishes. The film is a scripted timeline (does not use the device clock).
+- Chapter 13 (new 13th chapter): video gallery. Your 3 supplied videos are included in videos/ and listed with real thumbnails taken from the videos. Add videos from the device (preview + title/caption/date before adding), reorder with arrows, remove, edit, add a personal message between videos, theater player (play/pause, volume, seek, full screen, replay, previous/next), per-video Download of the original file with its filename and size, and Download all.
+- Candles (garden cake chapter): "Blow the Candles" now puts the flames out one after another with a blowing sound, smoke puffs, dimmer light, confetti and applause, then shows "Light the Candles Again". Optional microphone blowing with a sensitivity slider and status; the button always works; the microphone is never required and is switched off after use or when you leave the chapter.
+- Unlocking: finishing the egg finale (wipe the screen clean) unlocks Chapter 12; the film finishing unlocks Chapter 13. Progress is saved as before.
+LIMITS AND HONEST NOTES
+- Your Chapter 12 film has Bhut answering questions from an unknown number (the phone is labelled Bhut's phone), which differs from the brief where Anusha is the one messaged. I kept your film as supplied and only added the midnight message.
+- Chapter 12 has no video of its own in your film. After the film ends a "A little video for you" slot appears and plays videos/surprise.mp4 if you add that file; until then it shows a clearly labelled placeholder. Your 3 videos are in Chapter 13.
+- The voice message "My Bhut's Voice" still sits at the bottom of Chapter 11 (The Last Surprise); it is no longer at the very end of the site because chapters 12 and 13 come after it.
+- Videos you upload are stored only in this browser (IndexedDB) on that device; they do not move to another phone. Browser storage can be cleared by the browser.
+- Download all: starts the downloads one by one; browsers may ask permission for multiple downloads and the page cannot confirm they finished. A single ZIP of everything was not built.
+- chapter12.html loads two Google fonts when online (it falls back to system fonts offline).
+- The zip is large because it contains your 33 MB video.
+TESTED (automated, Chrome for Testing over http://localhost, fake microphone; NOT a real Android phone)
+- 13 chapters and 12 navigation dots, no script errors on load; chapter 11 was not edited apart from the new unlock button
+- candles: flames fade in sequence, smoke removed afterwards, "Light the Candles Again" relights, the button works again afterwards, microphone listening starts with a fake microphone and stops cleanly, status messages shown
+- Chapter 12 in the site: the frame loads when opened and unloads on leaving; the full film run (fast mode) showed the BROOOO message and then unlocked the Chapter 13 button
+- gallery: 3 supplied videos listed with filename and size, 3 thumbnails matched the real video frames (brightness check), theater player loaded and played a supplied video, download links present, uploaded a real test clip (preview then add), it persisted after reload and gets a working download link, a non-video file was rejected, move up, add message, remove all worked, no horizontal overflow at 390 px
+NOT TESTED
+- a real Android phone; real blowing into a real microphone (only a fake microphone tone); real downloads landing in the Downloads folder; surprise.mp4 slot with a real file; the gallery with very large uploads; the Chapter 12 film at normal speed on a phone end to end.

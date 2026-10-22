@@ -1,0 +1,54 @@
+ANUSHA BIRTHDAY V41 — ONLINE SYNC SETUP (English)
+
+WHAT SYNCS ONLINE (after setup)
+  Owner -> Visitor (database-driven, no re-publish needed):
+    * Chapter 13 gallery: photos, videos, titles, captions, dates, message cards, order, removals
+    * Owner voice message (plays at the very bottom of the site)
+    * Website song (file or https link)
+  Anusha -> Owner:
+    * Chapter 10 Stage-1 punishment voice recording  (private upload)
+    * Chapter 5 voice recording                      (private upload)
+  Stays on each device ON PURPOSE: unlock/game progress, game scores, Anusha's typed reactions
+  (they still use the "Send it to Bhut" share button).
+  NOT editable from the site (fixed in the HTML, a new publish is needed to change them):
+    chapter story text, quiz/riddle text, game logic, animations.
+
+STEP 1  Owner login
+  Supabase > Authentication > Users > Add user. Use your Owner email + a strong password.
+  Tick "Auto Confirm User". Keep the password private.
+  Then: Authentication > Sign In / Providers > turn OFF "Allow new users to sign up".
+
+STEP 2  Run the SQL
+  Open SUPABASE_SETUP.sql in a text editor. Find the line marked "THE ONE LINE YOU EDIT".
+  Replace OWNER_EMAIL_HERE with your exact Owner email (keep the single quotes).
+  Supabase > SQL Editor > New query > paste the WHOLE file > Run.
+  If it says "No owner registered", the email does not match the user from Step 1.
+  The file is safe to run again.
+
+STEP 3  Check Storage (Supabase > Storage)
+  You should see two buckets:  gallery (Public)  and  voice (Private).
+
+STEP 4  Keys
+  birthday8-owner/cloud-config.js and birthday8-visitor/cloud-config.js already contain the
+  same Project URL and publishable key. Do not change them. NEVER put a secret / service_role key
+  or the database password in these files.
+
+STEP 5  Publish both folders as two separate https sites (Owner link private, Visitor link for Anusha).
+
+STEP 6  Test (on the published Owner link, in Chrome)
+  Chapter 13 > Owner Mode > sign in > "Test online sync". Every line must start with a tick.
+  Then add a small photo, open the Visitor link in another browser/phone and confirm it appears.
+  Anusha records in Chapter 10 -> on the Owner site open Chapter 13 > "Anusha's online voice
+  recordings" > Load recordings > Load & listen.
+  To publish your voice message or website song: first sign in under Chapter 13, then use the
+  Owner-only setup on the first page.
+
+PRIVACY
+  * Chapter 5/10 screens now tell Anusha her recording is uploaded online for the Owner.
+  * Recordings go to a PRIVATE bucket. Anusha's phone can only ADD files; only the signed-in Owner
+    can list, play, download or delete them.
+  * Gallery photos/videos, your voice message and the website song are readable by anyone who has
+    their link (they are meant for the Visitor).
+  * Anyone who views the site's source can see the public key and could upload an audio file
+    (max 10 MB, audio types only) into the voice bucket. They still cannot read or delete anything.
+    Check Storage > voice now and then and delete junk.

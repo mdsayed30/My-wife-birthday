@@ -1,0 +1,22 @@
+V27 IMPLEMENTATION / TEST REPORT
+
+Implemented in this archive:
+- Replaced the duplicate “Record My Birthday Message” panel with a collapsed owner-only permanent-voice setup using the existing persistent voice storage.
+- Owner can record or import their own audio, save it, download a backup, and restore/import it on another device.
+- Original voice puzzle now plays the saved owner voice first (autoplay may be blocked by browser; replay button is provided), then records Anusha's answer.
+- Attempts are saved separately in a dedicated IndexedDB database on the current device/browser, with timestamp, attempt number, answer text, correctness, playback, download, and delete controls.
+- Speech recognition is used where available. If unavailable or blocked, the user can type the answer after recording; the typed answer is validated rather than pretending speech was recognized.
+- Only a matching answer triggers the existing lgWin() progression. Incorrect answers do not unlock the next chapter.
+- Media tracks are stopped after recording. HTTPS is required for reliable microphone access.
+
+Tests actually performed:
+- Both JavaScript blocks passed Node.js syntax validation (`node --check`).
+- ZIP was regenerated and contains the existing project assets plus V27 changes.
+- Source inspection confirmed the original chapter progression callback (`lgWin()`) is used only after a matching answer.
+
+Not tested in this environment:
+- Real microphone permission / recording on an Android phone.
+- Actual browser speech recognition accuracy and whether it coexists smoothly with MediaRecorder on the target phone.
+- IndexedDB persistence/playback/download/delete across a real refresh/reopen on the published HTTPS deployment.
+- Correct/wrong answer end-to-end interaction in a live browser.
+- Owner voice audio itself is not bundled because no owner recording was provided; record/import it once on the owner device, then download and safely keep a backup. On another device, import that backup.

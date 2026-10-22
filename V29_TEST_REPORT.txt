@@ -1,0 +1,13 @@
+V29 REPORT
+CHANGES
+- Microphone: the code no longer refuses to try just because the address is content:// or file://. It checks navigator.mediaDevices, MediaRecorder and (where available) the microphone permission state, then calls getUserMedia and starts recording only after permission succeeds. If the browser really hides the microphone, or blocks it, a specific message is shown (insecure page, denied, no microphone, microphone busy, unsupported browser, recording error). Nothing is faked.
+- IMPORTANT LIMIT: Chrome on Android usually does NOT provide the microphone to content:// local previews. No code can change that. Use the published https:// link (Netlify Drop / GitHub Pages). The button 'Use my phone's voice recorder' works everywhere because it opens the phone's own recorder app; it is then confirmed by typing the sentence and is marked 'not auto-verified'.
+- Layout: the voice challenge is a full-screen opaque panel (z-index above everything), scrollable, with spaced buttons, body scroll locked while open and restored after.
+- Owner voice: unchanged and separate (plays when Anusha opens the love puzzle; set only in the first page's Owner-only setup; bundled option audio/owner-voice.mp3). Anusha's recordings use a different database and never touch it.
+TESTED (automated, headless Chrome, FAKE microphone, MOCKED speech recognition, not a real phone):
+- recording starts on file:// (browser allowed it), stop works, player shows, mic tracks go from live to ended, timer stops
+- mocked recognition: wrong phrase rejected, correct phrase accepted; typed fallback rejects wrong and accepts right
+- save, persist after reload, download and share buttons present, delete works, owner voice byte-identical afterwards
+- permission denied and missing-API paths show clear messages and the Record button recovers
+- panel: opaque, nothing behind it reachable at 5 sample points, no horizontal overflow, scrollable at 390x780
+NOT TESTED: real Android phone or microphone, real speech recognition, real Share sheet, HTTPS hosting, whether Chrome on your phone allows the microphone on your content:// preview (it usually does not).

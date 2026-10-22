@@ -1,0 +1,26 @@
+V40 TASKS 4, 5 AND 6 - REPORT (headless Chromium, phone-size screens 390x844 and 360x640; no real Android phone)
+
+TASK 4 - CATCH YOUR HEART (Chapter 6) SPEED
+Changed ONE formula (how long the heart stays before it jumps): 1050 - 85 x catches (minimum 380) became 940 - 75 x catches (minimum 400), same random wobble. Average stay per jump: first catch about 1076 ms -> 963 ms, 4th catch about 815 -> 732 ms, 8th catch about 466 -> 425 ms. So roughly 9-10% faster everywhere, a smooth ramp, no spike. Same single heart, same tap area, scoring (8 catches), miss rules, timer, win logic and the slide transition are untouched.
+TESTED: played to a win at both phone sizes with a 260-420 ms tap reaction: 8 of 8 first taps caught, game won, no errors. Measured jump timing in the browser is noisy (few samples), so the numbers above come from the formula.
+NOT TESTED: real Android touch latency. If it feels too fast, change 940 back toward 1050 in function hgMove.
+Not changed: Cupid-er Aim Kothay? (its own arrows/targets). Say if you meant that game.
+
+TASK 5 - FUNNY BANGLISH LINES (added, nothing old removed)
+- "Oii Pookie, dorte parteso na? ..." added to the missed-tap lines of Catch Your Heart (shows when she taps and misses the heart).
+- "Mam Anusha, apnar hashi dekle amr brain loading ney..." added to the correct-clue lines of Mission: Anusha-r Hasi Churi (shows after a right answer; it appears within the first two right answers).
+- "Hehehe Cutie pare na,pare na..." added to the missed-arrow lines of Cupid-er Aim Kothay?.
+Exact wording and emojis as you typed them. None is in the film, the story, the wish page or any serious chapter.
+ONE awkward existing line improved (Cake Disaster Bakery, when a layer is removed): "একটা লেয়ার ছুটি নিল। মাপ-মতোই ভালো! 🙈" -> "একটা লেয়ার ছুটিতে গেল—তবু কেকটা দিব্যি দাঁড়িয়ে আছে! 🙈". I looked through the rest and found them natural, so I left them alone.
+TESTED: each line appears at its intended moment (and the old lines still appear); the Catch Your Heart line does not appear on a successful catch; no errors.
+Note: lines are picked at random (never the same line twice in a row), so a given line may take a few tries to show.
+
+TASK 6 - SAFE PERFORMANCE
+Measured first (every chapter, Games Room, Chapter 12 frame, rapid navigation, 4x CPU slowdown). CONFIRMED problems and fixes:
+1. Catch Your Heart kept running after you left Chapter 6: a timer every 500 ms and a jumping-heart timer, forever, until the game was won. FIX: they stop when you leave Chapter 6 (returning restarts the game exactly as before). Verified: running before, stopped after; game still plays to a win.
+2. The synthesized "Happy Birthday" tune could start twice on top of itself (the automatic tune on Chapter 9 plus the "Play Happy Birthday" button, because audio/happy-birthday.mp3 is not in the folder so the button uses the synth tune). FIX: a second tune is not started while one is still sounding (about 12 s); after it ends the button plays it again. Verified: before = two tunes 7 s apart, after = one.
+3. PRECAUTION (could not be reproduced here): buttons and links now use touch-action: manipulation so quick repeated taps (chapter dots, cards) cannot trigger double-tap zoom on iPhones/Safari. Pinch zoom still works.
+CHECKED AND LEFT ALONE (no problem found): no duplicate event listeners; the 3D house, cake and Cupid loops stop when you leave; Chapter 12's frame and its timers are removed when you leave; rapid chapter tapping (36 taps) leaves exactly one chapter open; double-tapping Enter, the gift and puzzle cards does not double-trigger; layout shift is essentially zero (largest 0.007); gallery videos only load metadata. The long tasks seen in Chapters 3 and 4 are the test browser's software 3D drawing, not slow JavaScript, so nothing was changed there.
+NOT TOUCHED: any Bangla/Banglish text (apart from the one Task 5 line above), authentication, Supabase/cloud settings, the database, owner controls, photos, videos, chapters, games, visuals.
+TESTED AFTER THE CHANGES: all 13 chapters open at both phone sizes with no JavaScript errors and no sideways overflow; Chapter 10 vault starts at Stage 1; Chapter 13 shows 3 videos; all three Games Room games open, start and return to the menu; Catch Your Heart and the new lines re-tested.
+NOT TESTED / REMAINING: a real phone (real GPU speed, battery, iOS double-tap behaviour); the real mp3 files (audio/ has none, so music, applause, first cry and the birthday song all use synthesized sound); the blur (backdrop-filter) effects were not measured on a real GPU; the 700 ms check inside Chapter 12's own page runs only while that chapter is open and was left as is.

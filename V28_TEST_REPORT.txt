@@ -1,0 +1,13 @@
+V28 REPORT
+CHANGED: Rebuilt the voice system inside the main script. V27's separate voice script could not reach the owner-voice functions, and the page crashed at load because a deleted button was still referenced; both fixed.
+1) OWNER VOICE (database 'anushaVoice'): saved only from the Owner-only setup on the first page (record or import; backup download). It plays when Anusha opens the love puzzle (chapter 4) and still plays on the final wish as before. If none is saved in the browser it tries audio/owner-voice.mp3/.m4a/.webm/.ogg from the project folder. Anusha's code never writes or deletes it.
+2) ANUSHA VOICE CHALLENGE: wrong answers in the love puzzle (mismatched card pairs and wrong word taps) are counted (saved across refresh). The 21st wrong answer opens the challenge: 'Anusha, say this in your own voice to continue!' with the sentence 'I love you, Bhut!'. Record, stop, playback, retry, Save & continue. Speech recognition validates the phrase where available; otherwise an honest note appears and she must type the sentence (marked 'not auto-verified'). After saving, the puzzle continues where it was; nothing in the puzzle is skipped.
+3) RECORDINGS (separate database 'anusha-v27-private-audio'): list in the first-page Owner setup panel and in the challenge: playback, timestamp, download, share (where supported), delete. Local to the device; nothing uploaded. A recording made on Anusha's phone must be downloaded/shared to reach your phone.
+TESTED (automated, headless Chrome served over http://localhost, FAKE microphone, MOCKED speech recognition = simulated, not real):
+- owner voice stored and unchanged (byte hash) after 21 wrong answers, retries, saves, a refresh and a recording delete
+- 20 wrong answers: no challenge; 21st: challenge opens; pending state survives refresh
+- wrong phrase ('hello there') rejected; 'I love you boot' accepted; typed fallback rejects wrong text and accepts right text
+- recording saved, still listed after reload, has download and share buttons, delete works
+- page loads without JavaScript errors at 390px width, no horizontal overflow
+NOT TESTED: a real Android phone/microphone, real speech-recognition accuracy (and whether Chrome allows recognition and recording together), Share on a real phone, the owner's real voice file, other games after this change (not modified).
+PUBLISH: upload the whole folder (index.html, photos/, audio/, _headers) to Netlify Drop or GitHub Pages and open the https link in Android Chrome. content:// or file:// previews cannot use the microphone.

@@ -1,0 +1,28 @@
+V31 TEST REPORT (headless Chromium via Playwright, phone-sized viewports 390x844 and 360x680, served from localhost; NO real phone, NO real microphone, NO real saved owner recording)
+
+WHAT CHANGED
+1. Chapter 9 voice (from the earlier V31 request): the voice player, volume slider and autoplay were removed from Chapter 9. Your voice plays only in "My Bhut's Voice ♡" at the very bottom of the last page, after the vault, and only when Anusha presses Play. Audio files untouched. Side effect: the gift tap now always starts the Happy Birthday song (before, it started your voice if one was saved).
+2. BUG FIX - "Locked" Next button / "Go to My Bhut's Voice" doing nothing (Final Love Vault page). Cause found: the page can show "The vault is open" from the saved vault state, but the unlock of the next chapter was only granted at the moment the lock was solved. If that unlock was not saved (for example after "Start over", which does not clear the vault, or storage not saved on that phone), Next stayed "Locked" and the Go button silently did nothing. Fix: opening the vault page with a finished vault now unlocks the last chapter, and the Go button unlocks it before moving. Reproduced the bug on the previous build (Next showed "Locked", Go button did nothing) and confirmed it fixed on this build. I cannot see your phone's storage, so I can't prove this was the exact cause on your device, only that this state reproduces your screenshot.
+3. FILM TEXT (all 7 scenes, 20 caption moments, in order):
+   - English main narration, written to follow what each scene shows: quiet room and heartbeat, first cry, welcome; babyhood and first steps; long afternoons in the meadow; school board; growing years; teenage years; turning fifteen and the closing reflection. No invented personal memories or events.
+   - Bangla lines appear only in 6 places, each shown directly below its English text with a thin divider: birth, first steps/exploring, the rhyme (early childhood), growing up (slow motion), the "why" joke (teenage years), and the closing line. No Bangla elsewhere.
+   - Board scene: the board now reads "2 + 2 = 5" and "143" (this is a change to the drawing, as requested). I read 143 as the "I love you" code (I=1, love=4, you=3) and wrote the narration that way; tell me if you meant something else.
+   - Your rhyme and the closing pair are used exactly as you wrote them. The closing English line and its Bangla line stay on screen after the film ends, together with the Replay/Next buttons.
+   - The old caption "years" were wrong for the ages shown, and some text overlapped the next scene. The year/age line over the picture now uses real dates (age 1.2 is 2013, under-1 shows "newborn" then "baby").
+   - The old separate dialogue box is no longer used (Bangla now sits inside the caption box). The caption box is below the picture, so no text covers faces. Captions are timed per scene so none cross a scene cut or repeat.
+   - New: during the film, if a caption would fall below the visible screen, the page scrolls down just enough to show it (never scrolls up). On a short phone this moves the top of the picture a little off screen.
+   - Visuals, characters, music, sound effects and scene order were not changed other than the board text.
+
+TESTED OK
+- Whole film played in real time at 390x844 and 360x680: all 20 captions appeared once, in order; Bangla appears only under the intended English lines; the ending card stays after the film; Replay and Next buttons appear; no JavaScript errors.
+- Screenshots checked: board text readable, girl does not cover it in the captured frame; the 4-line rhyme fits fully on a 360x680 screen; closing English line sits directly above its Bangla line.
+- Bug fix: reproduced before and fixed after (vault saved as finished with chapter unlock missing).
+- Chapter 9: no voice controls even with an owner voice saved; bottom voice does not play on arrival and plays only after pressing Play (tested with a 2-second test tone, not shipped).
+- Script syntax check passes.
+
+NOT TESTED / LIMITS
+- No real phone. Bangla fonts and emoji were checked only in Chromium on a computer; real phones may draw them slightly differently.
+- I checked the board in a few frames only; the girl walks back and forth, so her head could briefly touch the numbers at other moments.
+- Memory game, Romeo & Juliet, garden, dream house, cake games, photos, the first-page voice setup and the vault puzzle itself were not modified and were not re-tested in full.
+- Optional audio (first-cry.mp3, music.mp3) is not in the project, so the browser makes the sounds itself; these appear as harmless "not found" requests.
+- The Bangla and English writing was not reviewed by a native proofreader.
